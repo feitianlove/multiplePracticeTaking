@@ -35,9 +35,6 @@ func canJump2(nums []int) bool {
 // 动态规划
 
 func canJump(nums []int) bool {
-	if len(nums) <= 1 {
-		return true
-	}
 	dp := make([]bool, len(nums))
 	dp[0] = true
 	for i := 1; i < len(nums); i++ {
