@@ -47,9 +47,9 @@ func canPartition(nums []int) bool {
 			} else {
 				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]]
 			}
-
 		}
 	}
+	fmt.Println(dp)
 	return dp[len(nums)][target]
 }
 
