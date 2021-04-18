@@ -14,9 +14,9 @@ import (
 )
 
 func main() {
-	fmt.Println(lengthOfLongestSubstring("abcabcbb"))
+	fmt.Println(lengthOfLongestSubstring2("abc"))
+	fmt.Println(isRepeat("abca"))
 }
-
 func lengthOfLongestSubstring(s string) int {
 	max := 0
 	start := 0
@@ -35,4 +35,28 @@ func lengthOfLongestSubstring(s string) int {
 		max = len(s) - start
 	}
 	return max
+}
+
+// 暴力法
+func lengthOfLongestSubstring2(s string) int {
+	max := 0
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j <= len(s); j++ {
+			if isRepeat(s[i:j]) {
+				if len(s[i:j]) > max {
+					max = len(s[i:j])
+				}
+			}
+		}
+	}
+	return 0
+}
+func isRepeat(s string) bool {
+	for i := 0; i < len(s); i++ {
+		index := strings.Index(s, string(s[i]))
+		if index != -1 {
+			return false
+		}
+	}
+	return true
 }

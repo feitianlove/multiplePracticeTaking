@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "pb/clientMode";
+
+
+message StreamRequest {
+    string data = 1;
+}
+
+message SimpleResponse {
+    //响应码
+    int32 code = 1;
+    //响应值
+    string value = 2;
+}
+
+service streamClient{
+    rpc ListValue(stream StreamRequest)returns(SimpleResponse){};
+}

@@ -1,0 +1,21 @@
+syntax = "proto3"; // 协议为proto3(必须放在首行)
+
+
+package proto;
+option go_package = "pb/clientMode";
+
+// 定义发送请求信息
+message SimpleRequest {
+    string data = 1;
+}
+// 定义接收请求信息
+message StreamResponse {
+    string stream_value = 1;
+
+}
+
+// 定义我们的服务
+service StreamServer {
+    rpc ListValue(SimpleRequest) returns(stream StreamResponse){};
+
+}
