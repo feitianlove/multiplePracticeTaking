@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/feitianlove/Miscellaneous.git/rpc/clientStreamMode/pb/clientMode"
+	pb "github.com/feitianlove/multiplePracticeTaking/rpc/clientStreamMode/pb/clientMode"
 	"google.golang.org/grpc"
 	"io"
 	"net"

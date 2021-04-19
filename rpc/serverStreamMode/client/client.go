@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/feitianlove/Miscellaneous.git/rpc/serverStreamMode/pb/clientMode"
+	pb "github.com/feitianlove/multiplePracticeTaking/rpc/serverStreamMode/pb/clientMode"
 	"google.golang.org/grpc"
 	"io"
 	"log"

@@ -7,7 +7,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "github.com/feitianlove/Miscellaneous.git/rpc/simple/pb/bar"
+	pb "github.com/feitianlove/multiplePracticeTaking/rpc/simple/pb/bar"
 )
 
 const (

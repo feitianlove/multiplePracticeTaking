@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/feitianlove/Miscellaneous.git/rpc/bothStreamMode/pb"
+	pb "github.com/feitianlove/multiplePracticeTaking/rpc/bothStreamMode/pb"
 	"google.golang.org/grpc"
 	"io"
 	"net"

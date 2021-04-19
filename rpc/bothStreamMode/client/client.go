@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/feitianlove/Miscellaneous.git/rpc/bothStreamMode/pb"
+	"github.com/feitianlove/multiplePracticeTaking/rpc/bothStreamMode/pb"
 	"google.golang.org/grpc"
 	"io"
 	"log"

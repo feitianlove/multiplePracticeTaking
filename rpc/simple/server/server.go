@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/feitianlove/Miscellaneous.git/rpc/simple/pb/bar"
+	pb "github.com/feitianlove/multiplePracticeTaking/rpc/simple/pb/bar"
 	"google.golang.org/grpc"
 	"log"
 	"net"
