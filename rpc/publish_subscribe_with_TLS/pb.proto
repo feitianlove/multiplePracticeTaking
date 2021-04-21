@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package publish_subscribe;
+
+message String {
+    string value = 1;
+}
+service PubsubService {
+    rpc Publish (String) returns (String);
+    rpc Subscribe (String) returns (stream String);
+}

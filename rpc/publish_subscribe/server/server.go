@@ -5,11 +5,16 @@ import (
 	pb "github.com/feitianlove/multiplePracticeTaking/rpc/publish_subscribe"
 	"github.com/moby/moby/pkg/pubsub"
 	"google.golang.org/grpc"
-	"log"
+	"google.golang.org/grpc/credentials"
 	"net"
 	"strings"
 	"time"
 )
+
+/*
+	前面讲述的基于证书的认证是针对每个gRPC链接的认证。
+	gRPC还为每个gRPC方法调用提供了认证支持，这样就基于用户Token对不同的方法访问进行权限管理。
+*/
 
 type PubsubService struct {
 	pub *pubsub.Publisher
@@ -49,12 +54,21 @@ func (p *PubsubService) Subscribe(
 	return nil
 }
 func main() {
-	grpcServer := grpc.NewServer()
+	// 添加一个证书
+	creds, err := credentials.NewServerTLSFromFile("../server.crt", "../server.key")
+	if err != nil {
+		panic(err)
+	}
+	//grpc.NewServer()构造一个gRPC服务对象，需要传进去证书
+	grpcServer := grpc.NewServer(grpc.Creds(creds))
+
 	pb.RegisterPubsubServiceServer(grpcServer, NewPubsubService())
 
-	lis, err := net.Listen("tcp", ":1234")
+	conn, err := net.Listen("tcp", ":1234")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	grpcServer.Serve(lis)
+	func() {
+		_ = grpcServer.Serve(conn)
+	}()
 }
