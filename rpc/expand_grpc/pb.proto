@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package expand_grpc;
+
+import "google/api/annotations.proto";
+
+
+message StringMessage {
+  string value = 1;
+}
+
+
+service RestService {
+    rpc Get(StringMessage) returns (StringMessage) {
+        option (google.api.http) = {
+            get: "/get/{value}"
+        };
+    }
+    rpc Post(StringMessage) returns (StringMessage) {
+        option (google.api.http) = {
+            post: "/post"
+            body: "*"
+        };
+    }
+}
+// /Users/ftfeng/GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.16.0/third_party/googleapis
