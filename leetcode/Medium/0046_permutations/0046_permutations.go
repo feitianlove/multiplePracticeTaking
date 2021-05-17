@@ -23,7 +23,7 @@ import (
 
 */
 func main() {
-	fmt.Println(permute([]int{1, 2}))
+	fmt.Println(permute([]int{5, 4}))
 }
 
 //递归
@@ -60,7 +60,7 @@ func dfs(nums []int, index int, arr []int, visited map[int]bool) {
 	if index == len(nums) {
 		temp := make([]int, len(arr))
 		copy(temp, arr)
-		res = append(res, temp)
+		res = append(res, arr)
 		return
 	}
 	for i := 0; i < len(nums); i++ {

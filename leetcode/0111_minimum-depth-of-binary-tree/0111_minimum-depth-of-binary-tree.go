@@ -18,7 +18,7 @@ func main() {
 
 	right := TreeNode{}
 	right.Val = 2
-
+	right.Right = &TreeNode{Val: 1}
 	root.Left = &left
 	root.Right = &right
 	res := minDepth(&root)
@@ -52,7 +52,7 @@ func min(a, b int) int {
 	}
 }
 
-//广度搜索
+// 回溯算法
 func minDepth2(root *TreeNode) int {
 	if root == nil {
 		return 0
