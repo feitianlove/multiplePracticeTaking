@@ -9,6 +9,8 @@ require (
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/containerd/containerd v1.5.2 // indirect
+	github.com/docker/docker v20.10.7+incompatible // indirect
 	github.com/edwingeng/doublejump v0.0.0-20200330080233-e4ea8bd1cbed // indirect
 	github.com/fatih/color v1.10.0 // indirect
 	github.com/fortytw2/leaktest v1.3.0 // indirect
@@ -36,6 +38,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/miekg/dns v1.1.42 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
+	github.com/moby/buildkit v0.8.3 // indirect
 	github.com/moby/moby v20.10.6+incompatible
 	github.com/nacos-group/nacos-sdk-go v1.0.7 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
@@ -45,8 +48,10 @@ require (
 	github.com/smallnest/rpcx v1.6.2
 	github.com/soheilhy/cmux v0.1.5 // indirect
 	github.com/valyala/fastrand v1.0.0 // indirect
+	github.com/vbatts/tar-split v0.11.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.1 // indirect
 	github.com/xtaci/lossyconn v0.0.0-20200209145036-adba10fffc37 // indirect
+	go.etcd.io/bbolt v1.3.6 // indirect
 	go.opencensus.io v0.23.0 // indirect
 	go.opentelemetry.io/otel v0.20.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
