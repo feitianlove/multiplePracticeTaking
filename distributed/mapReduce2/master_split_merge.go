@@ -15,7 +15,7 @@ import (
 */
 func (mr *Master) merge() {
 	var result map[string]string = make(map[string]string)
-
+	fmt.Println("merge")
 	for i := 0; i < mr.NReduce; i++ {
 		fileName := mergeName(mr.JobName, i)
 		file, err := os.Open(fileName)

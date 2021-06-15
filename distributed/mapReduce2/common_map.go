@@ -21,6 +21,7 @@ import (
 	创建nReduce个中间文件名称
 */
 func DoMpa(jobName string, mapTaskNum int, inFile string, nReduce int, mapF func(string, string) []KeyValue) {
+
 	f, err := os.Open(inFile)
 	if err != nil {
 		fmt.Printf("raad file %s err: %v\n", inFile, err)

@@ -25,7 +25,9 @@ type Worker struct {
 func (wk *Worker) DoTask(args *DoTaskArgs, _ *struct{}) error {
 	//任务数量+1
 	wk.Lock()
+	defer wk.Unlock()
 	wk.NTask++
+
 	switch args.Phase {
 	case mapPhase:
 		DoMpa(args.JobName, args.TaskNumer, args.File, args.NumOtherPhase, wk.Map)
@@ -40,10 +42,10 @@ func (wk *Worker) DoTask(args *DoTaskArgs, _ *struct{}) error {
 func RunWorker(masterAddress string, me string, nRpc int,
 	mapFun func(string, string) []KeyValue,
 	ReduceFunc func(string, []string) string) {
-	fmt.Println("run worker")
+	fmt.Println("run worker", me)
 	wk := new(Worker)
 	wk.Name = me
-	wk.Map = MapFunc
+	wk.Map = mapFun
 	wk.Reduce = ReduceFunc
 	wk.NRpc = nRpc
 	//新建一个rpc服务
@@ -58,25 +60,29 @@ func RunWorker(masterAddress string, me string, nRpc int,
 	wk.L = l
 	//注册到master
 	wk.RegisterWorker(masterAddress)
-
 	for {
 		wk.Lock()
-		//没有链接上
+		////没有链接上
 		if wk.NRpc == 0 {
 			wk.Unlock()
 			break
 		}
 		conn, err := wk.L.Accept()
+		fmt.Printf("接收到了mater的请求%+v\n", wk)
+		fmt.Println(conn, err)
+		//rpcs.ServeConn(conn)
+		//
 		if nil != err {
 			wk.Unlock()
 			break
 		} else {
 			wk.Unlock()
-			go rpcs.ServeConn(conn)
+			rpcs.ServeConn(conn)
 		}
-		wk.L.Close()
-		fmt.Printf("RunWorker%s is exit\n", me)
+		conn.Close()
+
 	}
+	fmt.Printf("RunWorker%s is exit\n", me)
 }
 
 //告知master worker的存在
@@ -91,7 +97,7 @@ func (wk *Worker) RegisterWorker(master string) {
 }
 
 //紧急中断
-func (wk *Worker) Close(_ *struct{}, res *ShutDownReplay) error {
+func (wk *Worker) Close(_, _ *struct{}, res *ShutDownReplay) error {
 	fmt.Println("shutdown register server\n", wk.Name)
 	wk.Lock()
 	wk.NRpc = 1

@@ -31,6 +31,10 @@ func main() {
 		panic(err)
 	}
 	rpc.ServeConn(conn)
+	conn, err = listener.Accept()
+
+	rpc.ServeConn(conn)
+
 	// 自定义编码和解码 通过json， 一般原生RPC跨语言的时候使用
 	//go rpc.ServeCodec(jsonrpc.NewServerCodec(conn))
 	//client := rpc.NewClientWithCodec(jsonrpc.NewClientCodec(conn))

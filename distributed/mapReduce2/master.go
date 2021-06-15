@@ -37,59 +37,22 @@ func NewMaster(address string) *Master {
 	return mr
 }
 
-/*
-	任务调度函数(顺序执行的)
-	files 要处理的文件
-	nReduce 分区数量
-*/
-func SequentialOne(jobName string, files []string, nReduce int,
-	mapF func(string, string) []KeyValue,
-	reduceF func(string, []string) string) {
-
-	m := NewMaster("master")
-	m.Run(jobName, files, nReduce, func(phase JobPhase) {
-		switch phase {
-		case mapPhase:
-			for i, f := range files {
-				DoMpa(m.JobName, i, f, m.NReduce, mapF)
-			}
-		case ReducePhase:
-			for i := 0; i < m.NReduce; i++ {
-				DoReduce(m.JobName, i, mergeName(m.JobName, i), len(files), reduceF)
-			}
-		}
-	}, func() {
-		m.Status = m.KillWokre()
-	})
-}
-
-func (m *Master) Run(jobName string, files []string, nReduce int,
-	schedule func(phase JobPhase),
-	finish func()) { //finsh收尾
-	m.JobName = jobName
-	m.NReduce = nReduce
-	m.Files = files
-	//执行map任务
-	schedule(mapPhase)
-	//执行reduce热卖
-	schedule(ReducePhase)
-	finish()
-	//合并文件
-	m.merge()
-}
-
 //实现一个worker函数，这是一哥rpc方法
-func (mr *Master) Register(args *RegisterArgs) error {
+//2021/06/08 15:09:35 rpc.Register: method "Register" has 4 input parameters; needs exactly three
+//func (mr *Master) Register(_, _ *struct{}, args *RegisterArgs) error {
+func (mr *Master) Register(args *RegisterArgs, _ *struct{}) error {
 	mr.Lock()
 	defer mr.Unlock()
 	mr.Workers = append(mr.Workers, args.Worker)
 	//广播给所有
+	fmt.Println("mr.workers 队列 ", args, mr.Workers)
 	mr.NewCond.Broadcast()
 	return nil
 }
 
 // 实现一个worker传递函数，将所以已存在的worker与新注册的worker传递到一个通道中，让调度函数进行处理
 func (mr *Master) ForwardRegister(ch chan string) {
+
 	i := 0
 	for {
 		mr.Lock()
@@ -100,20 +63,27 @@ func (mr *Master) ForwardRegister(ch chan string) {
 			}()
 			i++
 		} else {
+			fmt.Println("ForwardRegister", mr.Workers, i)
 			mr.NewCond.Wait()
 		}
 		mr.Unlock()
+
 	}
+
 }
 
 //分布式执行mapReduce任务,通过rpc在主服务器上注册的workers调度map和reduce任务
-func Distributed(jobName string, files []string, nReduce int, master string) *Master {
+func Distributed(jobName string, files []string, nReduce int, master string) {
 	fmt.Println("distributed....")
+	var wg sync.WaitGroup
 	mr := NewMaster(master)
 	//启动master的RPC服务
-	mr.StartRpcServer()
+	wg.Add(1)
+	go mr.StartRpcServer(&wg)
 	//执行任务
+	fmt.Println("Distributed 中的mr", mr)
 	go mr.Run(jobName, files, nReduce, func(phase JobPhase) {
+		fmt.Println("run")
 		ch := make(chan string)
 		go mr.ForwardRegister(ch)
 		//调度执行
@@ -122,7 +92,22 @@ func Distributed(jobName string, files []string, nReduce int, master string) *Ma
 		mr.Status = mr.KillWokre()
 		mr.StopRpcServer()
 	})
-	return mr
+	wg.Wait()
+}
+func (mr *Master) Run(jobName string, files []string, nReduce int,
+	schedule func(phase JobPhase),
+	finish func()) { //finsh收尾
+	mr.JobName = jobName
+	mr.NReduce = nReduce
+	mr.Files = files
+	//执行map任务
+	schedule(mapPhase)
+	fmt.Println("开始执行reduce")
+	//执行reduce热卖
+	schedule(ReducePhase)
+	finish()
+	//合并文件
+	mr.merge()
 }
 
 //清理worker

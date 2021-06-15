@@ -1,6 +1,9 @@
 package mapReduce
 
-import "net/rpc"
+import (
+	"fmt"
+	"net/rpc"
+)
 
 type ShutDownReplay struct {
 	//代表指定woker执行的当前为止的任务数量（任务编号）
@@ -17,6 +20,7 @@ type ShutDownReplay struct {
 func call(svc string, rpcName string, args interface{}, reply interface{}) bool {
 	//链接rpc服务
 	c, err := rpc.Dial("unix", svc)
+	fmt.Println("call1 func return", svc, rpcName, err)
 	if err != nil {
 		return false
 	}
@@ -25,6 +29,7 @@ func call(svc string, rpcName string, args interface{}, reply interface{}) bool 
 	}()
 	//调用指定方法
 	err = c.Call(rpcName, args, reply)
+	fmt.Println("call2 func return", rpcName, err)
 	if err == nil {
 		return true
 	}
