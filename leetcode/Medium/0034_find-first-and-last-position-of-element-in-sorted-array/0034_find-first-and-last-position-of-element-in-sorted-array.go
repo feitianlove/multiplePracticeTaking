@@ -10,7 +10,7 @@ import "fmt"
 	链接：https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array
 */
 func main() {
-	nums := []int{}
+	nums := []int{5, 7, 7, 8, 8, 10}
 	target := 6
 	fmt.Println(searchRange(nums, target))
 }
