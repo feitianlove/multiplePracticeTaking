@@ -14,8 +14,9 @@ import (
 )
 
 func main() {
-	fmt.Println(lengthOfLongestSubstring2("abc"))
-	fmt.Println(isRepeat("abca"))
+	//fmt.Println(lengthOfLongestSubstring2("abc"))
+	//fmt.Println(isRepeat("abca"))
+	fmt.Println(lengthOfLongestSubstring3("tmmzuxt"))
 }
 func lengthOfLongestSubstring(s string) int {
 	max := 0
@@ -59,4 +60,33 @@ func isRepeat(s string) bool {
 		}
 	}
 	return true
+}
+
+//滑动窗口
+func lengthOfLongestSubstring3(s string) int {
+	//tmmzuxt  abcabcbb
+	var left, right = 0, 0
+	var res int
+	words := make(map[uint8]int)
+	for right < len(s) {
+		s1 := s[right]
+		right++
+		words[s1]++
+		for words[s1] > 1 {
+			s2 := s[left]
+			left++
+			words[s2]--
+
+		}
+		res = max(res, right-left)
+	}
+	return res
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
 }
