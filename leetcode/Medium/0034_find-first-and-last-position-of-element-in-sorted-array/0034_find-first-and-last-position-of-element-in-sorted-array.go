@@ -11,7 +11,7 @@ import "fmt"
 */
 func main() {
 	nums := []int{5, 7, 7, 8, 8, 10}
-	target := 6
+	target := 9
 	fmt.Println(searchRange(nums, target))
 }
 func searchRange(nums []int, target int) []int {
@@ -40,11 +40,15 @@ func rightSearch(nums []int, target int) int {
 	return left - 1
 }
 
+//5, 7, 7, 8, 8, 10
 func leftSearch(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	var middle int
 	for left <= right {
+		//println("---------------")
 		middle = left + (right-left)/2
+		//fmt.Println(left, right, middle)
+		//fmt.Println(nums[middle], target)
 		//找左边先
 		if nums[middle] == target {
 			right = middle - 1
