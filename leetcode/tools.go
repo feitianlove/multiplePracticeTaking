@@ -50,7 +50,7 @@ func (this *MinStack) GetMin() int {
 	return this.stack[len(this.stack)-1].min
 }
 
-// 满二叉树
+// 二叉树
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode

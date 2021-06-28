@@ -21,11 +21,14 @@ import "fmt"
 
 func main() {
 	fmt.Println(canPartition([]int{1, 2, 5, 2}))
+
 	//fmt.Println(canPartition([]int{1, 2, 3, 5}))
 
 }
 
+//[]int{1, 2, 5, 2}
 func canPartition(nums []int) bool {
+	//和为奇数不能分，return false
 	sum := 0
 	for i := 0; i < len(nums); i++ {
 		sum += nums[i]
@@ -33,24 +36,25 @@ func canPartition(nums []int) bool {
 	if sum%2 != 0 {
 		return false
 	}
-	target := sum / 2
-	// 经典背包问题
+	//因为这里有两个状态 背包的容量和可选择的物品
+	//i
 	dp := make([][]bool, len(nums)+1)
+	//j
 	for i := 0; i < len(dp); i++ {
-		dp[i] = make([]bool, target+1)
-		dp[i][0] = true
+		dp[i] = make([]bool, (sum/2)+1)
 	}
+	dp[0][0] = true
+	//fmt.Println(canPartition([]int{1, 2, 5, 2}))
 	for i := 1; i <= len(nums); i++ {
-		for j := 1; j <= target; j++ {
+		for j := 1; j <= sum/2; j++ {
+			// 容量不足
 			if j-nums[i-1] < 0 {
 				dp[i][j] = dp[i-1][j]
 			} else {
+				//容量够了买或者不买
 				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]]
 			}
 		}
 	}
-	fmt.Println(dp)
-	return dp[len(nums)][target]
+	return dp[len(nums)][sum/2]
 }
-
-//[]int{1, 2, 5, 2}
