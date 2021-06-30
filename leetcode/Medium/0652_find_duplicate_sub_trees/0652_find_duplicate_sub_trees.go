@@ -42,6 +42,7 @@ func traverse(root *TreeNode, hash map[string]int) string {
 		res = append(res, root)
 	}
 	hash[freq]++
+	fmt.Println(hash)
 	return freq
 }
 
