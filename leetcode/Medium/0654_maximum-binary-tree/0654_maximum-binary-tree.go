@@ -36,8 +36,8 @@ type TreeNode struct {
 }
 
 func main() {
-
 }
+
 func constructMaximumBinaryTree(nums []int) *TreeNode {
 	return build(nums, 0, len(nums))
 }
