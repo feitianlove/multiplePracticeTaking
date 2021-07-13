@@ -24,7 +24,7 @@ func main() {
 	third.Next = &fourth
 	fourth.Next = &second
 
-	fmt.Println(hasCycle(&first))
+	fmt.Println(hasCycle3(&first))
 }
 
 type ListNode struct {
@@ -52,6 +52,20 @@ func hasCycle2(head *ListNode) bool {
 		}
 		head.Val = math.MaxInt32
 		head = head.Next
+	}
+	return false
+}
+
+// 双指针之快慢指针
+
+func hasCycle3(head *ListNode) bool {
+	slow, fast := head, head
+	for slow != nil && fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+		if slow == fast {
+			return true
+		}
 	}
 	return false
 }
