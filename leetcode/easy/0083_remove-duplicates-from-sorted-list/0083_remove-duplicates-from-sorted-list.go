@@ -19,8 +19,8 @@ func main() {
 	head.Next = &one
 	one.Next = &two
 	//deleteDuplicates(&head).print()
-	deleteDuplicates3(&head)
-	head.print()
+	deleteDuplicates(&head)
+	//head.print()
 }
 
 type ListNode struct {
@@ -35,18 +35,22 @@ func (l *ListNode) print() {
 	}
 }
 
-// 超出时间限制
+//快慢指针
 func deleteDuplicates(head *ListNode) *ListNode {
 	if head == nil {
 		return nil
 	}
-	prov := head
-	start := prov.Next
-	for start != nil {
-		if start.Val == prov.Val {
-			*prov.Next = *start.Next
-			start = start.Next
+	fast, slow := head.Next, head
+	for fast != nil {
+
+		if fast.Val == slow.Val {
+			fast = fast.Next
+			continue
 		}
+
+		slow.Next = fast
+		slow = slow.Next
+		fast = fast.Next
 	}
 	return head
 }
