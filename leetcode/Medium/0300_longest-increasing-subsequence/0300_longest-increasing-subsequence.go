@@ -14,12 +14,14 @@ import "fmt"
 
 */
 func main() {
-	fmt.Println(lengthOfLIS([]int{1, 3, 6, 7, 9, 4, 10, 5, 6}))
+	nums := []int{1, 3, 6, 7, 9, 4, 10, 5, 6}
+	fmt.Println(lengthOfLIS(nums))
 }
 
 func lengthOfLIS(nums []int) int {
-	dp := make([]int, len(nums))
-	res := 1
+	var dp = make([]int, len(nums))
+	dp[0] = 1
+	var res int
 	for i := 0; i < len(nums); i++ {
 		dp[i] = 1
 		for j := 0; j < i; j++ {
@@ -27,10 +29,11 @@ func lengthOfLIS(nums []int) int {
 				dp[i] = max(dp[i], dp[j]+1)
 			}
 		}
-		res = max(dp[i], res)
+		res = max(res, dp[i])
 	}
 	return res
 }
+
 func max(a, b int) int {
 	if a > b {
 		return a
