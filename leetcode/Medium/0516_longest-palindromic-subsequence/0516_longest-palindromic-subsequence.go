@@ -16,7 +16,6 @@ import "fmt"
 func main() {
 	fmt.Println(longestPalindromeSubseq("b"))
 }
-
 func longestPalindromeSubseq(s string) int {
 	l := len(s)
 	var dp = make([][]int, l)
