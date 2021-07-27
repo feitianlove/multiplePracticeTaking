@@ -48,6 +48,7 @@ func canPartition(nums []int) bool {
 	for i := 1; i <= len(nums); i++ {
 		for j := 1; j <= sum/2; j++ {
 			// 容量不足
+
 			if j-nums[i-1] < 0 {
 				dp[i][j] = dp[i-1][j]
 			} else {

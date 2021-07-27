@@ -16,8 +16,10 @@ import "fmt"
 */
 
 func main() {
-	fmt.Println(canJump([]int{2, 3, 1, 1, 4}))
-	fmt.Println(canJump([]int{3, 2, 1, 0, 4}))
+	fmt.Println(canJump1([]int{2, 3, 1, 1, 4}))
+	fmt.Println(canJump1([]int{3, 2, 1, 0, 4}))
+	fmt.Println(canJump1([]int{2, 0, 0}))
+	fmt.Println(canJump1([]int{0}))
 
 }
 
@@ -33,7 +35,6 @@ func canJump2(nums []int) bool {
 }
 
 // 动态规划
-
 func canJump(nums []int) bool {
 	dp := make([]bool, len(nums))
 	dp[0] = true
@@ -48,4 +49,24 @@ func canJump(nums []int) bool {
 		dp[i] = flag
 	}
 	return dp[len(nums)-1]
+}
+
+// 贪心
+func canJump1(nums []int) bool {
+	var farthest int = 0
+	for i := 0; i < len(nums); i++ {
+		farthest = max(farthest, nums[i]+i)
+		if farthest <= i && i != len(nums)-1 {
+			return false
+		}
+	}
+	return farthest >= len(nums)-1
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
 }
