@@ -42,7 +42,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 }
 
 //快慢指针
-
+// 1->2->3->4->5
 func removeNthFromEnd2(head *ListNode, n int) *ListNode {
 	slow, fast := head, head
 	for n > 0 {

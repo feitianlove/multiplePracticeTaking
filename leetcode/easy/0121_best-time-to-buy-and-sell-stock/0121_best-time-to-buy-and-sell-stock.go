@@ -32,12 +32,12 @@ func maxProfit(prices []int) int {
 		if i-1 == -1 {
 			dp[i][0] = 0
 			// 解释：
-			//   dp[1][0]
+			//   dp[0][0]
 			// = max(dp[-1][0], dp[-1][1] + prices[i])
 			// = max(0, -infinity + prices[i]) = 0
 			dp[i][1] = -prices[i]
 			//解释：
-			//   dp[1][1]
+			//   dp[0][1]
 			// = max(dp[-1][1], dp[-1][0] - prices[i])
 			// = max(-infinity, 0 - prices[i])
 			// = -prices[i]
