@@ -56,3 +56,53 @@ type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
 }
+
+// 差分数组，对同一个数组的某个区间做加减（频繁）
+type Difference struct {
+	Diff []int
+}
+
+func DifferenceConstruct(num []int) Difference {
+	var diff = make([]int, len(num))
+	diff[0] = num[0]
+	for i := 1; i < len(num); i++ {
+		diff[i] = num[i] - num[i-1]
+	}
+	return Difference{Diff: diff}
+}
+
+func (d *Difference) Increment(i, j int, value int) {
+	d.Diff[i] += value
+	if j+1 < len(d.Diff) {
+		d.Diff[j+1] -= value
+	}
+}
+
+func (d *Difference) Result() []int {
+	var res = make([]int, len(d.Diff))
+	res[0] = d.Diff[0]
+	for i := 1; i < len(d.Diff); i++ {
+		res[i] = d.Diff[i] + res[i-1]
+	}
+	return res
+}
+
+// Quick Sort
+func QuickSort(num []int, l, r int) []int {
+	var res = make([]int, 0)
+	if len(num) == 0 {
+		return []int{}
+	}
+	left, right := make([]int, 0), make([]int, 0)
+	p := num[l]
+	for i := l + 1; i < r; i++ {
+		if num[i] < p {
+			left = append(left, num[i])
+		} else {
+			right = append(right, num[i])
+		}
+	}
+	res = append(QuickSort(left, 0, len(left)), p)
+	res = append(res, QuickSort(right, 0, len(right))...)
+	return res
+}
